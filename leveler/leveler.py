@@ -1,4 +1,6 @@
 import asyncio
+import asyncpg
+import os
 import logging
 import math
 import operator
@@ -25,6 +27,8 @@ from redbot.core.utils.chat_formatting import box, pagify
 from redbot.core.utils.menus import DEFAULT_CONTROLS, menu
 from redbot.core.utils.predicates import MessagePredicate
 from tabulate import tabulate
+
+DATABASE_URL = os.environ["DATABASE_URL"]
 
 try:
     from motor.motor_asyncio import AsyncIOMotorClient
@@ -85,18 +89,7 @@ class Leveler(commands.Cog):
             "mention": True,
             "backgrounds": {
                 "profile": {
-                    "alice": "http://i.imgur.com/MUSuMao.png",
-                    "abstract": "http://i.imgur.com/70ZH6LX.png",
-                    "bluestairs": "http://i.imgur.com/EjuvxjT.png",
-                    "lamp": "http://i.imgur.com/0nQSmKX.jpg",
-                    "coastline": "http://i.imgur.com/XzUtY47.jpg",
-                    "redblack": "http://i.imgur.com/74J2zZn.jpg",
-                    "default": "http://i.imgur.com/8T1FUP5.jpg",
-                    "iceberg": "http://i.imgur.com/8KowiMh.png",
-                    "miraiglasses": "http://i.imgur.com/2Ak5VG3.png",
-                    "miraikuriyama": "http://i.imgur.com/jQ4s4jj.png",
-                    "mountaindawn": "http://i.imgur.com/kJ1yYY6.jpg",
-                    "waterlilies": "http://i.imgur.com/qwdcJjI.jpg",
+                    "https://images-ext-2.discordapp.net/external/iqEs7P3W90UpT3wvt7eCyOroUsqKotG2OJEhLQ9mtxA/https/media.discordapp.net/attachments/707730610650873916/819645282551726170/bg4.png",
                 },
                 "rank": {
                     "aurora": "http://i.imgur.com/gVSbmYj.jpg",
@@ -226,7 +219,7 @@ class Leveler(commands.Cog):
         )
         em.add_field(name="Total Exp:", value=userinfo["total_exp"])
         em.add_field(name="Server Exp:", value=await self._find_server_exp(user, server))
-        u_credits = await bank.get_balance(user)
+        u_credits = await tconn.fetchval("SELECT staff FROM users WHERE u_id = $1", user.id)
         em.add_field(
             name="Credits:",
             value=f"{u_credits}{(await bank.get_currency_name(server))[0]}",
