@@ -89,7 +89,7 @@ class Leveler(commands.Cog):
             "mention": True,
             "backgrounds": {
                 "profile": {
-                    "https://images-ext-2.discordapp.net/external/iqEs7P3W90UpT3wvt7eCyOroUsqKotG2OJEhLQ9mtxA/https/media.discordapp.net/attachments/707730610650873916/819645282551726170/bg4.png",
+                    "default": "https://images-ext-2.discordapp.net/external/iqEs7P3W90UpT3wvt7eCyOroUsqKotG2OJEhLQ9mtxA/https/media.discordapp.net/attachments/707730610650873916/819645282551726170/bg4.png",
                 },
                 "rank": {
                     "aurora": "http://i.imgur.com/gVSbmYj.jpg",
